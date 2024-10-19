@@ -26,5 +26,10 @@ namespace FlappyBird
         {
 
         }
+
+        private void bottomPipe_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
