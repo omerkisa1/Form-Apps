@@ -16,7 +16,9 @@ namespace FlappyBird
         int gravity = 1;  
         int velocity = 0; 
         int score = 0;
-        int collisionThreshold = 5; 
+        int collisionThreshold = 5;
+        int[] stages = new int[] {10, 12, 15};
+
 
         public Form1()
         {
@@ -46,6 +48,8 @@ namespace FlappyBird
 
             bottomPipe.Left -= mapSpeed;
             topPipe.Left -= mapSpeed;
+            bottomPipe2.Left -= mapSpeed;
+            topPipe2.Left -= mapSpeed;
             scoreLabel.Text = "Score: " + score.ToString();
 
             if (bottomPipe.Left < -130)
@@ -58,6 +62,16 @@ namespace FlappyBird
                 topPipe.Left = 900;
                 score++;
             }
+            if(bottomPipe2.Left < -150)
+            {
+                bottomPipe2.Left = 770;
+                score++;
+            }
+            if(topPipe2.Left < - 145)
+            {
+                topPipe2.Left = 800;
+                score++;
+            }
 
   
             if (isColliding(Bird, bottomPipe) || isColliding(Bird, topPipe) || Bird.Bounds.IntersectsWith(ground.Bounds) || Bird.Top < -20)
@@ -65,11 +79,23 @@ namespace FlappyBird
                 endGame();
             }
 
- 
-            if (score > 7)
+
+            if (score > 15)
             {
-                mapSpeed = 15;
+                mapSpeed = stages[2];  
+    
             }
+            else if (score > 10)
+            {
+                mapSpeed = stages[1];  
+
+            }
+            else if (score > 5)
+            {
+                mapSpeed = stages[0];  
+  
+            }
+
         }
 
         private void gameKeyDown(object sender, KeyEventArgs e)
