@@ -106,10 +106,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.ClientSize = new System.Drawing.Size(1042, 486);
+            this.Controls.Add(this.scoreLabel);
             this.Controls.Add(this.ground);
             this.Controls.Add(this.bottomPipe);
             this.Controls.Add(this.topPipe);
-            this.Controls.Add(this.scoreLabel);
             this.Controls.Add(this.Bird);
             this.Name = "Form1";
             this.Text = "Form1";

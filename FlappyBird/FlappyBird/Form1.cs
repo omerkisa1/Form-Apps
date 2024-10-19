@@ -46,8 +46,8 @@ namespace FlappyBird
 
             bottomPipe.Left -= mapSpeed;
             topPipe.Left -= mapSpeed;
+            scoreLabel.Text = "Score: " + score.ToString();
 
- 
             if (bottomPipe.Left < -130)
             {
                 bottomPipe.Left = 800;
