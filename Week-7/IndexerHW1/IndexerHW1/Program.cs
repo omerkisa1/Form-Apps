@@ -1,63 +1,68 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace IndexerHW1
+class StudentGrades
 {
-    class Program
+
+    private Dictionary<string, int> grades = new Dictionary<string, int>();
+
+   
+    public int this[string courseName]
     {
-        class Library
+        get
         {
-            string[] library = { "book1", "book2", "book3", "book4", "book5", "book6" };
-
-            public string this[int index]
+            if (grades.ContainsKey(courseName))
             {
-                get
-                {
-                    if (index >= 0 && index < library.Length)
-                    {
-                        return library[index]; 
-                    }
-                    throw new IndexOutOfRangeException("Invalid index");
-                }
-                set
-                {
-                    if (index >= 0 && index < library.Length)
-                    {
-                        library[index] = value; 
-                    }
-                    else
-                    {
-                        throw new IndexOutOfRangeException("Invalid index");
-                    }
-                }
+                return grades[courseName]; 
+            }
+            else
+            {
+                throw new KeyNotFoundException($"Ders '{courseName}' bulunamadı.");
             }
         }
-
-        static void Main(string[] args)
+        set
         {
-            Library library = new Library();
-
-           
-            Console.WriteLine(library[2]); 
-
-           
-            library[2] = "newBook";
-            Console.WriteLine(library[2]);
-
-            
-            try
-            {
-                Console.WriteLine(library[-1]);
-            }
-            catch (IndexOutOfRangeException ex)
-            {
-                Console.WriteLine(ex.Message); 
-            }
-
-            Console.ReadLine();
+            grades[courseName] = value;
         }
+    }
+
+   
+    public void PrintAllGrades()
+    {
+        foreach (var course in grades)
+        {
+            Console.WriteLine($"Ders: {course.Key}, Not: {course.Value}");
+        }
+    }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        StudentGrades studentGrades = new StudentGrades();
+
+   
+        studentGrades["Matematik"] = 90;
+        studentGrades["Fizik"] = 85;
+        studentGrades["Kimya"] = 78;
+
+        Console.WriteLine("Matematik Notu: " + studentGrades["Matematik"]); 
+        Console.WriteLine("Fizik Notu: " + studentGrades["Fizik"]);       
+
+      
+        try
+        {
+            Console.WriteLine(studentGrades["Biyoloji"]); 
+        }
+        catch (KeyNotFoundException ex)
+        {
+            Console.WriteLine(ex.Message); 
+        }
+
+       
+        studentGrades.PrintAllGrades();
+
+        Console.ReadLine();
     }
 }
