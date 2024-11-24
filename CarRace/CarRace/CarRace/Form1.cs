@@ -29,13 +29,24 @@ namespace CarRace
 
         int blueCarScore = 0;
         int redCarScore = 0;
+        int speed = 5;
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            middleLineMoves(5);
+            middleLineMoves(speed);
 
-            blueCarScore++;
-            redCarScore++;
+            if (blueCarScore % 100 == 0 || redCarScore % 100 == 0)
+            {
+                speed++;
+            }
+
+
+            if (pressedKeys.Contains(Keys.Left) || pressedKeys.Contains(Keys.Right))
+                redCarScore++; 
+
+            if (pressedKeys.Contains(Keys.A) || pressedKeys.Contains(Keys.D))
+                blueCarScore++; 
+
             blueCarScoreLabel.Text = $"Score: {blueCarScore}";
             redCarScoreLabel.Text = $"Score: {redCarScore}";
 
@@ -50,15 +61,40 @@ namespace CarRace
                 blueCar.Left += 3;
 
 
-            Rectangle redCarBounds = new Rectangle(redCar.Left , redCar.Top + 5, redCar.Width - 80, redCar.Height - 40);
-            Rectangle blueCarBounds = new Rectangle(blueCar.Left , blueCar.Top + 5, blueCar.Width - 80, blueCar.Height - 40); // fix bounds
+            // Çarpışma alanlarını oluştur
+            Rectangle redCarBounds = new Rectangle(redCar.Left + 10, redCar.Top + 5, redCar.Width - 20, redCar.Height - 10);
+            Rectangle blueCarBounds = new Rectangle(blueCar.Left + 10, blueCar.Top + 5, blueCar.Width - 20, blueCar.Height - 10);
 
-
-            if (redCar.Bounds.IntersectsWith(blueCar.Bounds) || redCar.Bounds.IntersectsWith(pictureBox5.Bounds) || redCar.Bounds.IntersectsWith(pictureBox6.Bounds) || blueCar.Bounds.IntersectsWith(pictureBox5.Bounds) || blueCar.Bounds.IntersectsWith(pictureBox6.Bounds))
+            // Arabalar birbiriyle çarpışıyor mu?
+            if (redCarBounds.IntersectsWith(blueCarBounds))
             {
-                timer1.Stop(); // Oyunu durdur
-                MessageBox.Show("Çarpışma! Oyun Bitti!"); // Uyarı mesajı
+                timer1.Stop(); // Timer'ı durdur
+
+                // Çarpışmayı başlatanı belirle
+                string winner;
+                if (pressedKeys.Contains(Keys.Left) || pressedKeys.Contains(Keys.Right))
+                    winner = "Mavi Araba Kazandı! (Kırmızı çarptı)";
+                else if (pressedKeys.Contains(Keys.A) || pressedKeys.Contains(Keys.D))
+                    winner = "Kırmızı Araba Kazandı! (Mavi çarptı)";
+                else
+                    winner = "Beraberlik!";
+
+                MessageBox.Show($"Çarpışma! Oyun Bitti! {winner}");
+                return; // Daha fazla işlem yapmadan çık
             }
+
+            // Arabalar engellerle çarpışıyor mu?
+            if (redCarBounds.IntersectsWith(pictureBox5.Bounds) ||
+                redCarBounds.IntersectsWith(pictureBox6.Bounds) ||
+                blueCarBounds.IntersectsWith(pictureBox5.Bounds) ||
+                blueCarBounds.IntersectsWith(pictureBox6.Bounds))
+            {
+                timer1.Stop(); // Timer'ı durdur
+                MessageBox.Show("Çarpışma! Oyun Bitti!");
+                return; // Daha fazla işlem yapmadan çık
+            }
+
+
         }
 
         public void middleLineMoves(int speed)
