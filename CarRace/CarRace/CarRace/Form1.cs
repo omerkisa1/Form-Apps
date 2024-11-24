@@ -27,9 +27,17 @@ namespace CarRace
 
         }
 
+        int blueCarScore = 0;
+        int redCarScore = 0;
+
         private void timer1_Tick(object sender, EventArgs e)
         {
             middleLineMoves(5);
+
+            blueCarScore++;
+            redCarScore++;
+            blueCarScoreLabel.Text = $"Score: {blueCarScore}";
+            redCarScoreLabel.Text = $"Score: {redCarScore}";
 
             // Basılı tuşlara göre araç hareketi
             if (pressedKeys.Contains(Keys.Left))
@@ -41,11 +49,12 @@ namespace CarRace
             if (pressedKeys.Contains(Keys.D))
                 blueCar.Left += 3;
 
+
             Rectangle redCarBounds = new Rectangle(redCar.Left , redCar.Top + 5, redCar.Width - 80, redCar.Height - 40);
             Rectangle blueCarBounds = new Rectangle(blueCar.Left , blueCar.Top + 5, blueCar.Width - 80, blueCar.Height - 40); // fix bounds
 
 
-            if (redCar.Bounds.IntersectsWith(blueCar.Bounds))
+            if (redCar.Bounds.IntersectsWith(blueCar.Bounds) || redCar.Bounds.IntersectsWith(pictureBox5.Bounds) || redCar.Bounds.IntersectsWith(pictureBox6.Bounds) || blueCar.Bounds.IntersectsWith(pictureBox5.Bounds) || blueCar.Bounds.IntersectsWith(pictureBox6.Bounds))
             {
                 timer1.Stop(); // Oyunu durdur
                 MessageBox.Show("Çarpışma! Oyun Bitti!"); // Uyarı mesajı
@@ -115,6 +124,11 @@ namespace CarRace
             // Form odağı kaybedildiğinde tüm tuşları sıfırla
             pressedKeys.Clear();
         }
-        
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
     }
 }

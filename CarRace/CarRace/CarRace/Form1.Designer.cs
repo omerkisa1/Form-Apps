@@ -42,6 +42,8 @@
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.blueCarScoreLabel = new System.Windows.Forms.Label();
+            this.redCarScoreLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.behaviorManager1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.redCar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.blueCar)).BeginInit();
@@ -167,12 +169,35 @@
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
+            // blueCarScoreLabel
+            // 
+            this.blueCarScoreLabel.AutoSize = true;
+            this.blueCarScoreLabel.BackColor = System.Drawing.SystemColors.Control;
+            this.blueCarScoreLabel.Location = new System.Drawing.Point(162, 18);
+            this.blueCarScoreLabel.Name = "blueCarScoreLabel";
+            this.blueCarScoreLabel.Size = new System.Drawing.Size(53, 17);
+            this.blueCarScoreLabel.TabIndex = 11;
+            this.blueCarScoreLabel.Text = "Score: ";
+            this.blueCarScoreLabel.Click += new System.EventHandler(this.label1_Click);
+            // 
+            // redCarScoreLabel
+            // 
+            this.redCarScoreLabel.AutoSize = true;
+            this.redCarScoreLabel.BackColor = System.Drawing.SystemColors.Control;
+            this.redCarScoreLabel.Location = new System.Drawing.Point(406, 18);
+            this.redCarScoreLabel.Name = "redCarScoreLabel";
+            this.redCarScoreLabel.Size = new System.Drawing.Size(53, 17);
+            this.redCarScoreLabel.TabIndex = 12;
+            this.redCarScoreLabel.Text = "Score: ";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDark;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.redCarScoreLabel);
+            this.Controls.Add(this.blueCarScoreLabel);
             this.Controls.Add(this.redCar);
             this.Controls.Add(this.blueCar);
             this.Controls.Add(this.pictureBox9);
@@ -200,6 +225,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -218,6 +244,8 @@
         private System.Windows.Forms.PictureBox blueCar;
         private DevExpress.Utils.Behaviors.BehaviorManager behaviorManager1;
         private System.Windows.Forms.PictureBox redCar;
+        private System.Windows.Forms.Label blueCarScoreLabel;
+        private System.Windows.Forms.Label redCarScoreLabel;
     }
 }
 
