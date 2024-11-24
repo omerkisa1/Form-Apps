@@ -31,6 +31,10 @@
             this.components = new System.ComponentModel.Container();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.behaviorManager1 = new DevExpress.Utils.Behaviors.BehaviorManager(this.components);
+            this.blueCarScoreLabel = new System.Windows.Forms.Label();
+            this.redCarScoreLabel = new System.Windows.Forms.Label();
+            this.human = new System.Windows.Forms.PictureBox();
+            this.tree = new System.Windows.Forms.PictureBox();
             this.redCar = new System.Windows.Forms.PictureBox();
             this.blueCar = new System.Windows.Forms.PictureBox();
             this.pictureBox9 = new System.Windows.Forms.PictureBox();
@@ -42,9 +46,9 @@
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.blueCarScoreLabel = new System.Windows.Forms.Label();
-            this.redCarScoreLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.behaviorManager1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.human)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tree)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.redCar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.blueCar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).BeginInit();
@@ -63,6 +67,47 @@
             this.timer1.Enabled = true;
             this.timer1.Interval = 10;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // blueCarScoreLabel
+            // 
+            this.blueCarScoreLabel.AutoSize = true;
+            this.blueCarScoreLabel.BackColor = System.Drawing.SystemColors.Control;
+            this.blueCarScoreLabel.Location = new System.Drawing.Point(162, 18);
+            this.blueCarScoreLabel.Name = "blueCarScoreLabel";
+            this.blueCarScoreLabel.Size = new System.Drawing.Size(53, 17);
+            this.blueCarScoreLabel.TabIndex = 11;
+            this.blueCarScoreLabel.Text = "Score: ";
+            this.blueCarScoreLabel.Click += new System.EventHandler(this.label1_Click);
+            // 
+            // redCarScoreLabel
+            // 
+            this.redCarScoreLabel.AutoSize = true;
+            this.redCarScoreLabel.BackColor = System.Drawing.SystemColors.Control;
+            this.redCarScoreLabel.Location = new System.Drawing.Point(406, 18);
+            this.redCarScoreLabel.Name = "redCarScoreLabel";
+            this.redCarScoreLabel.Size = new System.Drawing.Size(53, 17);
+            this.redCarScoreLabel.TabIndex = 12;
+            this.redCarScoreLabel.Text = "Score: ";
+            // 
+            // human
+            // 
+            this.human.Image = global::CarRace.Properties.Resources.human_removebg_preview;
+            this.human.Location = new System.Drawing.Point(526, -31);
+            this.human.Name = "human";
+            this.human.Size = new System.Drawing.Size(83, 82);
+            this.human.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.human.TabIndex = 14;
+            this.human.TabStop = false;
+            // 
+            // tree
+            // 
+            this.tree.Image = global::CarRace.Properties.Resources.agac;
+            this.tree.Location = new System.Drawing.Point(209, -39);
+            this.tree.Name = "tree";
+            this.tree.Size = new System.Drawing.Size(70, 82);
+            this.tree.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.tree.TabIndex = 13;
+            this.tree.TabStop = false;
             // 
             // redCar
             // 
@@ -169,33 +214,14 @@
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
-            // blueCarScoreLabel
-            // 
-            this.blueCarScoreLabel.AutoSize = true;
-            this.blueCarScoreLabel.BackColor = System.Drawing.SystemColors.Control;
-            this.blueCarScoreLabel.Location = new System.Drawing.Point(162, 18);
-            this.blueCarScoreLabel.Name = "blueCarScoreLabel";
-            this.blueCarScoreLabel.Size = new System.Drawing.Size(53, 17);
-            this.blueCarScoreLabel.TabIndex = 11;
-            this.blueCarScoreLabel.Text = "Score: ";
-            this.blueCarScoreLabel.Click += new System.EventHandler(this.label1_Click);
-            // 
-            // redCarScoreLabel
-            // 
-            this.redCarScoreLabel.AutoSize = true;
-            this.redCarScoreLabel.BackColor = System.Drawing.SystemColors.Control;
-            this.redCarScoreLabel.Location = new System.Drawing.Point(406, 18);
-            this.redCarScoreLabel.Name = "redCarScoreLabel";
-            this.redCarScoreLabel.Size = new System.Drawing.Size(53, 17);
-            this.redCarScoreLabel.TabIndex = 12;
-            this.redCarScoreLabel.Text = "Score: ";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDark;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.human);
+            this.Controls.Add(this.tree);
             this.Controls.Add(this.redCarScoreLabel);
             this.Controls.Add(this.blueCarScoreLabel);
             this.Controls.Add(this.redCar);
@@ -213,6 +239,8 @@
             this.Text = "Form1";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.behaviorManager1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.human)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tree)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.redCar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.blueCar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).EndInit();
@@ -246,6 +274,8 @@
         private System.Windows.Forms.PictureBox redCar;
         private System.Windows.Forms.Label blueCarScoreLabel;
         private System.Windows.Forms.Label redCarScoreLabel;
+        private System.Windows.Forms.PictureBox tree;
+        private System.Windows.Forms.PictureBox human;
     }
 }
 

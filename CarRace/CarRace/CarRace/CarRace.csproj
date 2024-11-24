@@ -103,5 +103,11 @@
   <ItemGroup>
     <None Include="Resources\redCar-removebg-preview.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\agac.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\human-removebg-preview.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

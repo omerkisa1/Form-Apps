@@ -12,45 +12,53 @@ namespace CarRace
 {
     public partial class Form1 : Form
     {
-        // Basılı tuşları takip etmek için HashSet
+        // To track pressed keys
         private HashSet<Keys> pressedKeys = new HashSet<Keys>();
+        private Dictionary<PictureBox, int> obstacleSpeeds = new Dictionary<PictureBox, int>();
+        private Dictionary<PictureBox, int> horizontalDirections = new Dictionary<PictureBox, int>();
+        private Random random = new Random();
+        int blueCarScore = 0;
+        int redCarScore = 0;
+        int speed = 5;
 
         public Form1()
         {
             InitializeComponent();
             this.KeyDown += Form1_KeyDown;
             this.KeyUp += Form1_KeyUp;
+
+            // Add human and tree obstacles at the beginning
+            AddObstacle(human, 3);
+            AddObstacle(tree, 5);
         }
 
-        private void pictureBox4_Click(object sender, EventArgs e)
+        private void AddObstacle(PictureBox obstacle, int speed)
         {
-
+            obstacleSpeeds[obstacle] = speed;
+            horizontalDirections[obstacle] = random.Next(0, 2) == 0 ? -1 : 1; // -1: move left, 1: move right
         }
-
-        int blueCarScore = 0;
-        int redCarScore = 0;
-        int speed = 5;
 
         private void timer1_Tick(object sender, EventArgs e)
         {
             middleLineMoves(speed);
 
+            // Increase speed
             if (blueCarScore % 100 == 0 || redCarScore % 100 == 0)
             {
                 speed++;
             }
 
-
+            // Increase score
             if (pressedKeys.Contains(Keys.Left) || pressedKeys.Contains(Keys.Right))
-                redCarScore++; 
+                redCarScore++;
 
             if (pressedKeys.Contains(Keys.A) || pressedKeys.Contains(Keys.D))
-                blueCarScore++; 
+                blueCarScore++;
 
             blueCarScoreLabel.Text = $"Score: {blueCarScore}";
             redCarScoreLabel.Text = $"Score: {redCarScore}";
 
-            // Basılı tuşlara göre araç hareketi
+            // Move cars based on pressed keys
             if (pressedKeys.Contains(Keys.Left))
                 redCar.Left -= 3;
             if (pressedKeys.Contains(Keys.Right))
@@ -60,41 +68,53 @@ namespace CarRace
             if (pressedKeys.Contains(Keys.D))
                 blueCar.Left += 3;
 
-
-            // Çarpışma alanlarını oluştur
+            // Create collision bounds
             Rectangle redCarBounds = new Rectangle(redCar.Left + 10, redCar.Top + 5, redCar.Width - 20, redCar.Height - 10);
             Rectangle blueCarBounds = new Rectangle(blueCar.Left + 10, blueCar.Top + 5, blueCar.Width - 20, blueCar.Height - 10);
 
-            // Arabalar birbiriyle çarpışıyor mu?
+            // Check if the cars collide with each other
             if (redCarBounds.IntersectsWith(blueCarBounds))
             {
-                timer1.Stop(); // Timer'ı durdur
+                timer1.Stop(); // Stop the timer
 
-                // Çarpışmayı başlatanı belirle
+                // Determine the initiator of the collision
                 string winner;
                 if (pressedKeys.Contains(Keys.Left) || pressedKeys.Contains(Keys.Right))
-                    winner = "Mavi Araba Kazandı! (Kırmızı çarptı)";
+                    winner = "Blue Car Wins! (Red collided)";
                 else if (pressedKeys.Contains(Keys.A) || pressedKeys.Contains(Keys.D))
-                    winner = "Kırmızı Araba Kazandı! (Mavi çarptı)";
+                    winner = "Red Car Wins! (Blue collided)";
                 else
-                    winner = "Beraberlik!";
+                    winner = "It's a Tie!";
 
-                MessageBox.Show($"Çarpışma! Oyun Bitti! {winner}");
-                return; // Daha fazla işlem yapmadan çık
+                MessageBox.Show($"Collision! Game Over! {winner}");
+                return; // Exit further execution
             }
 
-            // Arabalar engellerle çarpışıyor mu?
-            if (redCarBounds.IntersectsWith(pictureBox5.Bounds) ||
-                redCarBounds.IntersectsWith(pictureBox6.Bounds) ||
-                blueCarBounds.IntersectsWith(pictureBox5.Bounds) ||
-                blueCarBounds.IntersectsWith(pictureBox6.Bounds))
+            // Check if cars collide with obstacles
+            foreach (var obstacle in obstacleSpeeds.Keys)
             {
-                timer1.Stop(); // Timer'ı durdur
-                MessageBox.Show("Çarpışma! Oyun Bitti!");
-                return; // Daha fazla işlem yapmadan çık
+                if (redCarBounds.IntersectsWith(obstacle.Bounds) || blueCarBounds.IntersectsWith(obstacle.Bounds))
+                {
+                    timer1.Stop();
+                    MessageBox.Show("You collided with an obstacle! Game Over!");
+                    return;
+                }
+
+                // Vertical movement of obstacles
+                obstacle.Top += obstacleSpeeds[obstacle];
+                if (obstacle.Top >= this.ClientSize.Height)
+                {
+                    obstacle.Top = -obstacle.Height;
+                    obstacle.Left = random.Next(0, this.ClientSize.Width - obstacle.Width);
+                }
+
+                // Horizontal movement of obstacles
+                obstacle.Left += horizontalDirections[obstacle];
+                if (obstacle.Left <= 0 || obstacle.Left >= this.ClientSize.Width - obstacle.Width)
+                {
+                    horizontalDirections[obstacle] *= -1; // Change direction
+                }
             }
-
-
         }
 
         public void middleLineMoves(int speed)
@@ -140,24 +160,28 @@ namespace CarRace
         {
 
         }
+        private void pictureBox4_Click(object sender, EventArgs e)
+        {
+
+        }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            // Basılı tuşları listeye ekle
+            // Add pressed keys to the list
             if (!pressedKeys.Contains(e.KeyCode))
                 pressedKeys.Add(e.KeyCode);
         }
 
         private void Form1_KeyUp(object sender, KeyEventArgs e)
         {
-            // Tuş bırakıldığında listeden çıkar
+            // Remove key from the list when released
             if (pressedKeys.Contains(e.KeyCode))
                 pressedKeys.Remove(e.KeyCode);
         }
 
         private void Form1_Deactivate(object sender, EventArgs e)
         {
-            // Form odağı kaybedildiğinde tüm tuşları sıfırla
+            // Clear all pressed keys when form loses focus
             pressedKeys.Clear();
         }
 
@@ -165,6 +189,5 @@ namespace CarRace
         {
 
         }
-
     }
 }

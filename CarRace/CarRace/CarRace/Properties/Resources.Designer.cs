@@ -63,6 +63,16 @@ namespace CarRace.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap türünde yerelleştirilmiş bir kaynak arar.
         /// </summary>
+        internal static System.Drawing.Bitmap agac {
+            get {
+                object obj = ResourceManager.GetObject("agac", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap türünde yerelleştirilmiş bir kaynak arar.
+        /// </summary>
         internal static System.Drawing.Bitmap blueCar {
             get {
                 object obj = ResourceManager.GetObject("blueCar", resourceCulture);
@@ -86,6 +96,16 @@ namespace CarRace.Properties {
         internal static System.Drawing.Bitmap car_top_view_transparent {
             get {
                 object obj = ResourceManager.GetObject("car_top_view_transparent", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap türünde yerelleştirilmiş bir kaynak arar.
+        /// </summary>
+        internal static System.Drawing.Bitmap human_removebg_preview {
+            get {
+                object obj = ResourceManager.GetObject("human-removebg-preview", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
