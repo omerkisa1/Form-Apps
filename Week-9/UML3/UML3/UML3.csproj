@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{CEF0EDE7-B54F-4968-AA1A-B96F95ED01F0}</ProjectGuid>
+    <ProjectGuid>{55BB2527-90EB-4D4D-969E-B3856773E57D}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>UML1</RootNamespace>
-    <AssemblyName>UML1</AssemblyName>
+    <RootNamespace>UML3</RootNamespace>
+    <AssemblyName>UML3</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -43,12 +43,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Address.cs" />
-    <Compile Include="Person.cs" />
-    <Compile Include="Professor.cs" />
+    <Compile Include="Animal.cs" />
+    <Compile Include="Experienced.cs" />
+    <Compile Include="Identifiable.cs" />
+    <Compile Include="Owner.cs" />
+    <Compile Include="Pet.cs" />
+    <Compile Include="PetInformation.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Student.cs" />
+    <Compile Include="Vaccine.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
