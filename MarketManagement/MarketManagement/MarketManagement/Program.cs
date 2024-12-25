@@ -20,9 +20,9 @@ namespace MarketManagement
             this.name = name;
             this.price = price;
             this.stock = stock;
-
         }
     }
+
     public abstract class Customer
     {
         public int ID { get; set; }
@@ -36,6 +36,7 @@ namespace MarketManagement
             this.email = email;
         }
     }
+
     public class IndividualCustomer : Customer
     {
         public string TC { get; set; }
@@ -47,6 +48,7 @@ namespace MarketManagement
         }
 
     }
+
     public class CorporateCustomer : Customer
     {
         public string companyName { get; set; }
@@ -60,12 +62,14 @@ namespace MarketManagement
         }
 
     }
+
     public abstract class Payment
     {
         public decimal PaymentAmount { get; set; }
 
         public abstract void ProcessPayment();
     }
+
     public class CreditCardPayment : Payment
     {
         public string CardNumber { get; set; }
@@ -79,6 +83,7 @@ namespace MarketManagement
             Console.WriteLine("Payment successful.");
         }
     }
+
     public class CashPayment : Payment
     {
         public override void ProcessPayment()
@@ -102,16 +107,13 @@ namespace MarketManagement
 
     public abstract class Discount
     {
-     
         protected Product Product { get; set; }
 
-  
         protected Discount(Product product)
         {
             Product = product;
         }
 
-    
         public abstract void SetDiscount();
     }
 
@@ -125,7 +127,6 @@ namespace MarketManagement
 
         public override void SetDiscount()
         {
-
             decimal newPrice = Product.price - FixedDiscountValue;
             Product.price = newPrice > 0 ? newPrice : 0;
 
@@ -135,7 +136,7 @@ namespace MarketManagement
 
     public class PercentageDiscount : Discount
     {
-        private decimal Percentage; 
+        private decimal Percentage;
 
         public PercentageDiscount(Product product, decimal percentage) : base(product)
         {
@@ -144,7 +145,6 @@ namespace MarketManagement
 
         public override void SetDiscount()
         {
-        
             decimal discountAmount = Product.price * (Percentage / 100);
             Product.price -= discountAmount;
 
@@ -163,16 +163,13 @@ namespace MarketManagement
 
         public void AddProduct(Product product)
         {
-            if (product != null && product.stock > 0)
-            {
-                Products.Add(product);
-                Console.WriteLine($"Product added: {product.name}");
-            }
-            else
-            {
-                Console.WriteLine($"Product cannot be added: {product?.name ?? "Invalid product"}");
-            }
+            if (product == null) throw new ArgumentNullException(nameof(product), "Product cannot be null.");
+            if (product.stock <= 0) throw new InvalidOperationException("Insufficient stock for this product.");
+
+            Products.Add(product);
+            Console.WriteLine($"Product added: {product.name}");
         }
+
         public void RemoveProduct(Product product)
         {
             if (Products.Contains(product))
@@ -182,9 +179,10 @@ namespace MarketManagement
             }
             else
             {
-                Console.WriteLine("Product not found in the cart.");
+                throw new KeyNotFoundException("Product not found in the cart.");
             }
         }
+
         public decimal CalculateTotal()
         {
             decimal total = 0;
@@ -196,6 +194,7 @@ namespace MarketManagement
 
             return total;
         }
+
         public void ListProducts()
         {
             if (Products.Count == 0)
@@ -210,17 +209,16 @@ namespace MarketManagement
                 Console.WriteLine($"- {product.name}: {product.price:C}");
             }
         }
-
     }
 
     public class Order
     {
         public enum OrderStatus
         {
-            Pending,     
-            Confirmed,   
-            Preparing,   
-            Delivered   
+            Pending,
+            Confirmed,
+            Preparing,
+            Delivered
         }
 
         public OrderStatus Status { get; private set; }
@@ -229,9 +227,9 @@ namespace MarketManagement
 
         public Order(Customer customer, Payment payment)
         {
-            Customer = customer ?? throw new ArgumentNullException(nameof(customer));
-            Payment = payment ?? throw new ArgumentNullException(nameof(payment));
-            Status = OrderStatus.Pending; 
+            Customer = customer ?? throw new ArgumentNullException(nameof(customer), "Customer cannot be null.");
+            Payment = payment ?? throw new ArgumentNullException(nameof(payment), "Payment cannot be null.");
+            Status = OrderStatus.Pending;
         }
 
         public void UpdateStatus(OrderStatus newStatus)
@@ -247,14 +245,55 @@ namespace MarketManagement
             Console.WriteLine($"Payment Amount: {Payment.PaymentAmount:C}");
             Console.WriteLine($"Order Status: {Status}");
         }
-
     }
-
 
     class Program
     {
         static void Main(string[] args)
         {
+            try
+            {
+               
+                Console.WriteLine("Market Management System Initialized.");
+
+            
+                Product product1 = new Product(1, "Laptop", 1500m, 10);
+                Product product2 = new Product(2, "Phone", 800m, 5);
+
+                IndividualCustomer customer = new IndividualCustomer(1, "John Doe", "john@example.com", "12345678901");
+
+           
+                Cart cart = new Cart();
+                cart.AddProduct(product1);
+                cart.AddProduct(product2);
+
+            
+                cart.ListProducts();
+
+             
+                decimal total = cart.CalculateTotal();
+                Console.WriteLine($"Total price: {total:C}");
+
+    
+                Payment payment = new CreditCardPayment
+                {
+                    PaymentAmount = total,
+                    CardNumber = "1234-5678-9876-5432",
+                    CardHolderName = "John Doe",
+                    ExpiryDate = DateTime.Now.AddYears(2)
+                };
+
+                Order order = new Order(customer, payment);
+                payment.ProcessPayment();
+                order.UpdateStatus(Order.OrderStatus.Confirmed);
+                order.DisplayOrderDetails();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Unexpected error in Main: {ex.Message}");
+            }
+
+            Console.ReadKey();
         }
     }
 }
